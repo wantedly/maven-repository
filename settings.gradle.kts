@@ -1,1 +1,1 @@
-rootProject.name = "maven-repository"
+rootProject.name = "wantedly-maven-repository"

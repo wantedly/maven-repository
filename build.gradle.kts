@@ -1,7 +1,11 @@
 plugins {
-    kotlin("dsl")
-    kotlin("jvm")
+    `kotlin-dsl`
+    id("org.jetbrains.kotlin.jvm") version "1.3.70"
+    `maven-publish`
 }
+
+group = "com.wantedly"
+version = "0.0.1"
 
 repositories {
     jcenter()
