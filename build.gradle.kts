@@ -1,6 +1,6 @@
 plugins {
-    `java-gradle-plugin`
-    id("org.jetbrains.kotlin.jvm") version "1.3.70"
+    kotlin("dsl")
+    kotlin("jvm")
 }
 
 repositories {
@@ -8,6 +8,7 @@ repositories {
 }
 
 dependencies {
+    compileOnly(gradleApi())
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     implementation(kotlin("gradle-plugin"))
     implementation(kotlin("stdlib-jdk8"))
