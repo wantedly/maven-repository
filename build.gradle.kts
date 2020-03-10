@@ -19,10 +19,3 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
 }
-
-gradlePlugin {
-    val mavenRepository by plugins.creating {
-        id = "com.wantedly.maven.repository"
-        implementationClass = "com.wantedly.maven.repository.MavenRepositoryPlugin"
-    }
-}

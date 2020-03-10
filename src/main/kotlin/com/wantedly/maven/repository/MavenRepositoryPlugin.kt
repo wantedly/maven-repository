@@ -1,20 +1,12 @@
 package com.wantedly.maven.repository
 
-import org.gradle.api.Project
-import org.gradle.api.Plugin
 import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
 import org.gradle.api.credentials.AwsCredentials
 import org.gradle.kotlin.dsl.credentials
 import java.io.File
 import java.net.URI
-import java.util.*
-
-class MavenRepositoryPlugin : Plugin<Project> {
-    override fun apply(project: Project) {
-        TODO("This plugin does nothing so you must not apply this plugin.")
-    }
-}
+import java.util.Properties
 
 private fun getProp(name: String): String? {
     return File("local.properties")
