@@ -38,8 +38,6 @@ bintray {
         name = "${project.group}:${project.name}"
         setLicenses("Apache-2.0")
         vcsUrl = "https://github.com/wantedly/maven-repository.git"
-        version = VersionConfig().apply {
-            name = "${project.version}"
-        }
+        setVersion(project.version)
     }
 }
