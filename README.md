@@ -28,4 +28,13 @@ dependencies {
 
 ### How to publish to JCenter
 
-TODO
+1. Upload from your local.
+
+    ```sh
+    $ export BINTRAY_USER=wantedly-dev
+    $ export BINTRAY_KEY=1234567890
+    $ ./gradlew clean bintrayUpload
+    ```
+
+1. Go to https://bintray.com/wantedly-dev/maven/com.wantedly%3Awantedly-maven-repository
+1. Click Publish button
