@@ -62,6 +62,7 @@ bintray {
     key = System.getenv("BINTRAY_KEY")
     setPublications("maven")
     pkg = PackageConfig().apply {
+        userOrg = "wantedly"
         repo = "maven"
         name = "${project.group}:${project.name}"
         setLicenses("Apache-2.0")
