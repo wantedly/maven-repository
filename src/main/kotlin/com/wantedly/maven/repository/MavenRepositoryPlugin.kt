@@ -21,14 +21,15 @@ private val isWtdMavenCredentialsExists = wtdMavenAccessKey != null && wtdMavenS
 
 fun RepositoryHandler.wantedly(): MavenArtifactRepository {
     return maven {
+        val authority = "wantedly-maven.s3.ap-northeast-1.amazonaws.com"
         if (isWtdMavenCredentialsExists) {
-            url = URI("s3://wantedly-maven")
+            url = URI("s3://$authority")
             credentials(AwsCredentials::class) {
                 accessKey = wtdMavenAccessKey
                 secretKey = wtdMavenSecretKey
             }
         } else {
-            url = URI("https://wantedly-maven.s3.ap-northeast-1.amazonaws.com")
+            url = URI("https://$authority")
         }
         content {
             includeGroupByRegex("""com\.wantedly.*""")
