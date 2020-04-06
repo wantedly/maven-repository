@@ -1,6 +1,6 @@
 plugins {
     `kotlin-dsl`
-    id("org.jetbrains.kotlin.jvm") version "1.3.70"
+    id("org.jetbrains.kotlin.jvm") version "1.3.71"
     id("com.jfrog.bintray") version "1.8.4"
     `maven-publish`
 }
