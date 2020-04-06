@@ -15,21 +15,21 @@ private fun getProp(name: String): String? {
         ?: System.getenv(name)
 }
 
-private val wtdMavenAccessKey = getProp("WTD_MAVEN_ACCESS_KEY")
-private val wtdMavenSecretKey = getProp("WTD_MAVEN_SECRET_KEY")
-private val isWtdMavenCredentialsExists = wtdMavenAccessKey != null && wtdMavenSecretKey != null
+private const val AUTHORITY = "wantedly-maven.s3.ap-northeast-1.amazonaws.com"
 
 fun RepositoryHandler.wantedly(): MavenArtifactRepository {
     return maven {
-        val authority = "wantedly-maven.s3.ap-northeast-1.amazonaws.com"
+        val wtdMavenAccessKey = getProp("WTD_MAVEN_ACCESS_KEY")
+        val wtdMavenSecretKey = getProp("WTD_MAVEN_SECRET_KEY")
+        val isWtdMavenCredentialsExists = wtdMavenAccessKey != null && wtdMavenSecretKey != null
         if (isWtdMavenCredentialsExists) {
-            url = URI("s3://$authority")
+            url = URI("s3://$AUTHORITY")
             credentials(AwsCredentials::class) {
                 accessKey = wtdMavenAccessKey
                 secretKey = wtdMavenSecretKey
             }
         } else {
-            url = URI("https://$authority")
+            url = URI("https://$AUTHORITY")
         }
         content {
             includeGroupByRegex("""com\.wantedly.*""")
