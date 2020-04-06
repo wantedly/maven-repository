@@ -62,7 +62,9 @@ bintray {
     key = System.getenv("BINTRAY_KEY")
     setPublications("maven")
     pkg = PackageConfig().apply {
-        userOrg = "wantedly"
+        // TODO(kubode): Needs to transfer ownership to the organization but seems can't do it now.
+        // Now requesting the transferring ownership but no response from Bintray support.
+//        userOrg = "wantedly"
         repo = "maven"
         name = "${project.group}:${project.name}"
         setLicenses("Apache-2.0")
