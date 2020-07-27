@@ -18,6 +18,8 @@ buildscript {
 
 repositories {
     wantedly()
+    // Add this if you want to use the snapshot versions.
+    wantedly(useSnapshots = true)
 }
 
 dependencies {
