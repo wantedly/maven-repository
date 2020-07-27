@@ -17,19 +17,20 @@ private fun getProp(name: String): String? {
 
 private const val AUTHORITY = "wantedly-maven.s3.ap-northeast-1.amazonaws.com"
 
-fun RepositoryHandler.wantedly(): MavenArtifactRepository {
+fun RepositoryHandler.wantedly(useSnapshots: Boolean = false): MavenArtifactRepository {
     return maven {
         val wtdMavenAccessKey = getProp("WTD_MAVEN_ACCESS_KEY")
         val wtdMavenSecretKey = getProp("WTD_MAVEN_SECRET_KEY")
+        val authorityAndPath = AUTHORITY + if (useSnapshots) "/snapshots" else ""
         val isWtdMavenCredentialsExists = wtdMavenAccessKey != null && wtdMavenSecretKey != null
         if (isWtdMavenCredentialsExists) {
-            url = URI("s3://$AUTHORITY")
+            url = URI("s3://$authorityAndPath")
             credentials(AwsCredentials::class) {
                 accessKey = wtdMavenAccessKey
                 secretKey = wtdMavenSecretKey
             }
         } else {
-            url = URI("https://$AUTHORITY")
+            url = URI("https://$authorityAndPath")
         }
         content {
             includeGroupByRegex("""com\.wantedly.*""")
