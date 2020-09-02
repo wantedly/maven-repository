@@ -60,6 +60,7 @@ bintray {
     user = System.getenv("BINTRAY_USER")
     key = System.getenv("BINTRAY_KEY")
     setPublications("maven")
+    publish = true
     pkg = PackageConfig().apply {
         // TODO(kubode): Needs to transfer ownership to the organization but seems can't do it now.
         // Now requesting the transferring ownership but no response from Bintray support.
