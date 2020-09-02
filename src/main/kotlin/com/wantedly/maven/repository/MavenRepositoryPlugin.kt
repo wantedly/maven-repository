@@ -44,7 +44,7 @@ private const val AUTHORITY = "wantedly-maven.s3.ap-northeast-1.amazonaws.com"
 
 @Deprecated(
     message = "S3 Maven has been deprecated. You should migrate to GitHub Packages.",
-    replaceWith = ReplaceWith("""wantedly("repo-name")"""),
+    replaceWith = ReplaceWith("""wantedly("repo-name")""")
 )
 fun RepositoryHandler.wantedly(useSnapshots: Boolean = false): MavenArtifactRepository {
     return maven {
