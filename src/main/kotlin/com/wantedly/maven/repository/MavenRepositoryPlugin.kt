@@ -8,6 +8,31 @@ import java.io.File
 import java.net.URI
 import java.util.Properties
 
+/**
+ * Adds a GitHub Packages Maven repository of Wantedly organization.
+ * `GITHUB_TOKEN` environment variable must be set.
+ *
+ * @param repo The name of the Wantedly organization's repository.
+ * @param group The name of the Maven artifact group. `com.wantedly.*` is set by default if not specified.
+ */
+fun RepositoryHandler.wantedly(repo: String, group: String? = null): MavenArtifactRepository {
+    return maven {
+        url = URI("https://maven.pkg.github.com/wantedly/$repo")
+        credentials {
+            username = "not used but required"
+            password = System.getenv("GITHUB_TOKEN")
+                ?: throw IllegalStateException("You must set `GITHUB_TOKEN` environment variable.")
+        }
+        content {
+            if (group != null) {
+                includeGroup(group)
+            } else {
+                includeGroupByRegex("""com\.wantedly.*""")
+            }
+        }
+    }
+}
+
 private fun getProp(name: String): String? {
     return File("local.properties")
         .takeIf { it.exists() }
@@ -17,6 +42,10 @@ private fun getProp(name: String): String? {
 
 private const val AUTHORITY = "wantedly-maven.s3.ap-northeast-1.amazonaws.com"
 
+@Deprecated(
+    message = "S3 Maven has been deprecated. You should migrate to GitHub Packages.",
+    replaceWith = ReplaceWith("""wantedly("repo-name")"""),
+)
 fun RepositoryHandler.wantedly(useSnapshots: Boolean = false): MavenArtifactRepository {
     return maven {
         val wtdMavenAccessKey = getProp("WTD_MAVEN_ACCESS_KEY")
