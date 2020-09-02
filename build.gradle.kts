@@ -1,6 +1,6 @@
 plugins {
     `kotlin-dsl`
-    id("org.jetbrains.kotlin.jvm") version "1.4.0"
+    kotlin("jvm") version "1.4.0"
     id("com.jfrog.bintray") version "1.8.5"
     `maven-publish`
 }
@@ -14,7 +14,7 @@ repositories {
 
 dependencies {
     compileOnly(gradleApi())
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+    implementation(platform(kotlin("bom")))
     implementation(kotlin("gradle-plugin"))
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
