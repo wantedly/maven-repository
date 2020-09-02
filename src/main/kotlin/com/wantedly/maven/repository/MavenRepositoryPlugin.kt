@@ -20,8 +20,8 @@ fun RepositoryHandler.wantedly(repo: String, group: String? = null): MavenArtifa
         url = URI("https://maven.pkg.github.com/wantedly/$repo")
         credentials {
             username = "not used but required"
-            password = System.getenv("GITHUB_TOKEN")
-                ?: throw IllegalStateException("You must set `GITHUB_TOKEN` environment variable.")
+            password = getProp("GITHUB_TOKEN")
+                ?: throw IllegalStateException("You must set `GITHUB_TOKEN` environment variable or property.")
         }
         content {
             if (group != null) {
