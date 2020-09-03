@@ -21,7 +21,7 @@ buildscript {
 repositories {
     // Adds a GitHub Packages Maven repository.
     wantedly(repo = "repo-name")
-    // Deprecated: Adds a S3 Maven repository.
+    // S3 Maven repository is depreacted. Use Github packages instead.
     wantedly()
     // Deprecated: Add this if you want to use the snapshot versions.
     wantedly(useSnapshots = true)
