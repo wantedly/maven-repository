@@ -1,6 +1,8 @@
 ## wantedly-maven-repository
 
-Make it easier introducing Wantedly local maven repository to your Gradle repository.
+[ ![Download](https://api.bintray.com/packages/wantedly-dev/maven/com.wantedly%3Awantedly-maven-repository/images/download.svg) ](https://bintray.com/wantedly-dev/maven/com.wantedly%3Awantedly-maven-repository/_latestVersion)
+
+Make it easier adding a Wantedly's private Maven repository to your Gradle script.
 
 ### Setup
 
@@ -17,8 +19,11 @@ buildscript {
 }
 
 repositories {
+    // Adds a GitHub Packages Maven repository.
+    wantedly(repo = "repo-name")
+    // S3 Maven repository is depreacted. Use Github packages instead.
     wantedly()
-    // Add this if you want to use the snapshot versions.
+    // Deprecated: Add this if you want to use the snapshot versions.
     wantedly(useSnapshots = true)
 }
 

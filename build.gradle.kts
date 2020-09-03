@@ -1,12 +1,12 @@
 plugins {
     `kotlin-dsl`
-    id("org.jetbrains.kotlin.jvm") version "1.3.71"
-    id("com.jfrog.bintray") version "1.8.4"
+    kotlin("jvm") version embeddedKotlinVersion
+    id("com.jfrog.bintray") version "1.8.5"
     `maven-publish`
 }
 
 group = "com.wantedly"
-version = "0.1.0"
+version = "0.2.0"
 
 repositories {
     jcenter()
@@ -14,9 +14,8 @@ repositories {
 
 dependencies {
     compileOnly(gradleApi())
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+    implementation(platform(kotlin("bom")))
     implementation(kotlin("gradle-plugin"))
-    implementation(kotlin("stdlib-jdk8"))
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
 }
@@ -61,6 +60,7 @@ bintray {
     user = System.getenv("BINTRAY_USER")
     key = System.getenv("BINTRAY_KEY")
     setPublications("maven")
+    publish = true
     pkg = PackageConfig().apply {
         // TODO(kubode): Needs to transfer ownership to the organization but seems can't do it now.
         // Now requesting the transferring ownership but no response from Bintray support.
