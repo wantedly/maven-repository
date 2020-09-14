@@ -4,9 +4,13 @@ import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
 import org.gradle.api.credentials.AwsCredentials
 import org.gradle.kotlin.dsl.credentials
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.net.URI
 import java.util.Properties
+
+private val logger: Logger = LoggerFactory.getLogger("WantedlyMavenRepository")
 
 /**
  * Adds a GitHub Packages Maven repository of Wantedly organization.
@@ -20,8 +24,12 @@ fun RepositoryHandler.wantedly(repo: String, group: String? = null): MavenArtifa
         url = URI("https://maven.pkg.github.com/wantedly/$repo")
         credentials {
             username = "not used but required"
-            password = getProp("GITHUB_TOKEN")
-                ?: throw IllegalStateException("You must set `GITHUB_TOKEN` environment variable or property.")
+
+            val ghToken = getProp("GITHUB_TOKEN")
+            if (ghToken.isNullOrEmpty()) {
+                logger.warn("You will get an authorization error unless setting `GITHUB_TOKEN` environment variable or `GITHUB_TOKEN` property in `local.properties`.")
+            }
+            password = ghToken
         }
         content {
             if (group != null) {
