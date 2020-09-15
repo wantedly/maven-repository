@@ -27,7 +27,7 @@ fun RepositoryHandler.wantedly(repo: String, group: String? = null): MavenArtifa
 
             val ghToken = getProp("GITHUB_TOKEN")
             if (ghToken.isNullOrEmpty()) {
-                logger.warn("You will get an authorization error unless setting `GITHUB_TOKEN` environment variable or `GITHUB_TOKEN` property in `local.properties`.")
+                logger.warn("You will get an authorization error if you don't set `GITHUB_TOKEN` as an environment variable or as a property in `local.properties`.")
             }
             password = ghToken
         }
