@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.wantedly"
-version = "0.2.0"
+version = "0.2.1"
 
 repositories {
     jcenter()
@@ -14,10 +14,14 @@ repositories {
 
 dependencies {
     compileOnly(gradleApi())
-    implementation(platform(kotlin("bom")))
-    implementation(kotlin("gradle-plugin"))
+    compileOnly(platform(kotlin("bom")))
+    compileOnly(kotlin("gradle-plugin"))
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
+}
+
+java {
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 val sourcesJar by tasks.registering(Jar::class) {
