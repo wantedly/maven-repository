@@ -1,5 +1,3 @@
-import org.jetbrains.dokka.gradle.DokkaTask
-
 plugins {
     `kotlin-dsl`
     kotlin("jvm") version embeddedKotlinVersion
@@ -41,6 +39,7 @@ publishing {
     publications {
         register<MavenPublication>("maven") {
             from(components["java"])
+            artifact(javadocJar.get())
             artifact(sourcesJar.get())
             pom {
                 setDescription("Wantedly Maven Repository")
