@@ -8,7 +8,7 @@ group = "com.wantedly"
 version = "1.0.0-SNAPSHOT"
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
