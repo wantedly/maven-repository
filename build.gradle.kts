@@ -56,7 +56,7 @@ publishing {
             artifact(javadocJar.get())
             artifact(sourcesJar.get())
             pom {
-                setDescription("Wantedly Maven Repository")
+                description.set("Wantedly Maven Repository")
                 name.set("wantedly-maven-repository")
                 url.set("https://github.com/wantedly/maven-repository")
                 licenses {
@@ -67,12 +67,15 @@ publishing {
                     }
                     developers {
                         developer {
-                            id.set("wantedly-dev")
                             name.set("wantedly-dev")
                             email.set("dev@wantedly.com")
+                            organization.set("Wantedly, Inc.")
+                            organizationUrl.set("https://github.com/wantedly")
                         }
                     }
                     scm {
+                        connection.set("scm:git:git://github.com/wantedly/maven-repository.git")
+                        developerConnection.set("scm:git:ssh://github.com:wantedly/maven-repository.git")
                         url.set("https://github.com/wantedly/maven-repository.git")
                     }
                 }
