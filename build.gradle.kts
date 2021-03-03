@@ -2,6 +2,7 @@ plugins {
     `kotlin-dsl`
     kotlin("jvm") version embeddedKotlinVersion
     `maven-publish`
+    signing
 }
 
 group = "com.wantedly"
