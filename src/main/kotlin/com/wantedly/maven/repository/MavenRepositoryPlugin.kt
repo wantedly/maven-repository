@@ -12,7 +12,7 @@ private val logger: Logger = LoggerFactory.getLogger("WantedlyMavenRepository")
 
 /**
  * Adds a GitHub Packages Maven repository of Wantedly organization.
- * `GITHUB_TOKEN` environment variable must be set.
+ * Either `GITHUB_TOKEN` environment variable or `GITHUB_TOKEN` property in project's `local.properties` must be set.
  *
  * @param repo The name of the Wantedly organization's repository.
  * @param group The name of the Maven artifact group. `com.wantedly.*` is set by default if not specified.
