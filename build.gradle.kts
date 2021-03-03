@@ -1,8 +1,11 @@
+import org.jetbrains.dokka.gradle.DokkaTask
+
 plugins {
     `kotlin-dsl`
     kotlin("jvm") version embeddedKotlinVersion
     `maven-publish`
     signing
+    id("org.jetbrains.dokka") version "1.4.20"
 }
 
 group = "com.wantedly"
@@ -18,7 +21,18 @@ dependencies {
     compileOnly(kotlin("gradle-plugin"))
 }
 
+val dokkaJavadoc by tasks
+
+val javadocJar by tasks.registering(Jar::class) {
+    dependsOn(dokkaJavadoc)
+    archiveClassifier.set("javadoc")
+    from(dokkaJavadoc.outputs)
+}
+
+val classes by tasks
+
 val sourcesJar by tasks.registering(Jar::class) {
+    dependsOn(classes)
     archiveClassifier.set("sources")
     from(sourceSets.main.get().allSource)
 }
