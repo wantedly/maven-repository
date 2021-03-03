@@ -16,8 +16,6 @@ dependencies {
     compileOnly(gradleApi())
     compileOnly(platform(kotlin("bom")))
     compileOnly(kotlin("gradle-plugin"))
-    testImplementation(kotlin("test"))
-    testImplementation(kotlin("test-junit"))
 }
 
 java {
