@@ -1,7 +1,6 @@
 plugins {
     `kotlin-dsl`
     kotlin("jvm") version embeddedKotlinVersion
-    id("com.jfrog.bintray") version "1.8.5"
     `maven-publish`
 }
 
@@ -57,22 +56,5 @@ publishing {
                 }
             }
         }
-    }
-}
-
-bintray {
-    user = System.getenv("BINTRAY_USER")
-    key = System.getenv("BINTRAY_KEY")
-    setPublications("maven")
-    publish = true
-    pkg = PackageConfig().apply {
-        // TODO(kubode): Needs to transfer ownership to the organization but seems can't do it now.
-        // Now requesting the transferring ownership but no response from Bintray support.
-//        userOrg = "wantedly"
-        repo = "maven"
-        name = "${project.group}:${project.name}"
-        setLicenses("Apache-2.0")
-        vcsUrl = "https://github.com/wantedly/maven-repository.git"
-        setVersion(project.version)
     }
 }
