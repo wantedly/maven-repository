@@ -11,6 +11,7 @@ version = "1.0.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -65,4 +66,17 @@ publishing {
             }
         }
     }
+}
+
+@Suppress("LocalVariableName")
+signing {
+    // https://docs.gradle.org/current/userguide/signing_plugin.html#using_in_memory_ascii_armored_openpgp_subkeys
+    // See GitHub's secrets
+    // Named with UPPER_CASE because GitHub's secret names are not case-sensitive.
+    val SIGNING_KEY_ID: String? by project
+    val SIGNING_KEY: String? by project
+    val SIGNING_PASSWORD: String? by project
+    @Suppress("UnstableApiUsage")
+    useInMemoryPgpKeys(SIGNING_KEY_ID, SIGNING_KEY, SIGNING_PASSWORD)
+    sign(publishing.publications["maven"])
 }
