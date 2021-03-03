@@ -2,11 +2,11 @@ package com.wantedly.maven.repository
 
 import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
+import org.jetbrains.kotlin.konan.properties.loadProperties
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.net.URI
-import java.util.Properties
 
 private val logger: Logger = LoggerFactory.getLogger("WantedlyMavenRepository")
 
@@ -40,8 +40,6 @@ fun RepositoryHandler.wantedly(repo: String, group: String? = null): MavenArtifa
 }
 
 private fun getProp(name: String): String? {
-    return File("local.properties")
-        .takeIf { it.exists() }
-        ?.let { Properties().apply { load(it.reader()) }.getProperty(name) }
-        ?: System.getenv(name)
+    return System.getenv(name)
+        ?: File("local.properties").takeIf { it.exists() }?.let { loadProperties(it.path).getProperty(name) }
 }
