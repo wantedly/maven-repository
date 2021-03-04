@@ -11,6 +11,7 @@ version = "1.0.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    // Workaround: https://github.com/Kotlin/dokka/issues/41
     jcenter()
 }
 
