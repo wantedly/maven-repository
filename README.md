@@ -40,11 +40,13 @@ Otherwise, `publish` workflow will fail.
 
 #### Local
 
+This repository is public, so we can't write about secrets values, but you can find it in the internal documentation.
+
 ```sh
-$ export ORG_GRADLE_PROJECT_OSSRH_PASSWORD=XXXXXX
-$ export ORG_GRADLE_PROJECT_OSSRH_USERNAME=XXXXXX
-$ export ORG_GRADLE_PROJECT_SIGNING_KEY=XXXXXX
-$ export ORG_GRADLE_PROJECT_SIGNING_KEY_ID=XXXXXX
-$ export ORG_GRADLE_PROJECT_SIGNING_PASSWORD=XXXXXX
+$ export ORG_GRADLE_PROJECT_signingKeyId=XXXXXXXXXXXX
+$ export ORG_GRADLE_PROJECT_signingKey=XXXXXXXXXXXX
+$ export ORG_GRADLE_PROJECT_signingPassword=XXXXXXXXXXXX
+$ export ORG_GRADLE_PROJECT_ossrhUsername=XXXXXXXXXXXX
+$ export ORG_GRADLE_PROJECT_ossrhPassword=XXXXXXXXXXXX
 $ ./gradlew clean publish
 ```
