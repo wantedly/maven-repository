@@ -29,7 +29,7 @@ dependencies {
 }
 ```
 
-### How to publish to JCenter
+### How to publish to Maven Central
 
 #### GitHub
 
