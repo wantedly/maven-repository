@@ -1,4 +1,4 @@
-name: Check
+name: Publish
 
 on: workflow_dispatch
 
