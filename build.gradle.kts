@@ -1,14 +1,17 @@
 plugins {
     `kotlin-dsl`
     kotlin("jvm") version embeddedKotlinVersion
-    id("com.jfrog.bintray") version "1.8.5"
     `maven-publish`
+    signing
+    id("org.jetbrains.dokka") version "1.4.20"
 }
 
 group = "com.wantedly"
 version = "1.0.0-SNAPSHOT"
 
 repositories {
+    mavenCentral()
+    // Workaround: https://github.com/Kotlin/dokka/issues/41
     jcenter()
 }
 
@@ -16,26 +19,45 @@ dependencies {
     compileOnly(gradleApi())
     compileOnly(platform(kotlin("bom")))
     compileOnly(kotlin("gradle-plugin"))
-    testImplementation(kotlin("test"))
-    testImplementation(kotlin("test-junit"))
 }
 
-java {
-    targetCompatibility = JavaVersion.VERSION_1_8
+val dokkaJavadoc by tasks
+
+val javadocJar by tasks.registering(Jar::class) {
+    dependsOn(dokkaJavadoc)
+    archiveClassifier.set("javadoc")
+    from(dokkaJavadoc.outputs)
 }
+
+val classes by tasks
 
 val sourcesJar by tasks.registering(Jar::class) {
+    dependsOn(classes)
     archiveClassifier.set("sources")
     from(sourceSets.main.get().allSource)
 }
 
 publishing {
+    repositories {
+        maven {
+            val releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            val snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
+            credentials {
+                val ossrhUsername: String? by project
+                val ossrhPassword: String? by project
+                username = ossrhUsername
+                password = ossrhPassword
+            }
+        }
+    }
     publications {
         register<MavenPublication>("maven") {
             from(components["java"])
+            artifact(javadocJar.get())
             artifact(sourcesJar.get())
             pom {
-                setDescription("Wantedly Maven Repository")
+                description.set("Wantedly Maven Repository")
                 name.set("wantedly-maven-repository")
                 url.set("https://github.com/wantedly/maven-repository")
                 licenses {
@@ -46,12 +68,15 @@ publishing {
                     }
                     developers {
                         developer {
-                            id.set("wantedly-dev")
                             name.set("wantedly-dev")
                             email.set("dev@wantedly.com")
+                            organization.set("Wantedly, Inc.")
+                            organizationUrl.set("https://github.com/wantedly")
                         }
                     }
                     scm {
+                        connection.set("scm:git:git://github.com/wantedly/maven-repository.git")
+                        developerConnection.set("scm:git:ssh://github.com:wantedly/maven-repository.git")
                         url.set("https://github.com/wantedly/maven-repository.git")
                     }
                 }
@@ -60,19 +85,12 @@ publishing {
     }
 }
 
-bintray {
-    user = System.getenv("BINTRAY_USER")
-    key = System.getenv("BINTRAY_KEY")
-    setPublications("maven")
-    publish = true
-    pkg = PackageConfig().apply {
-        // TODO(kubode): Needs to transfer ownership to the organization but seems can't do it now.
-        // Now requesting the transferring ownership but no response from Bintray support.
-//        userOrg = "wantedly"
-        repo = "maven"
-        name = "${project.group}:${project.name}"
-        setLicenses("Apache-2.0")
-        vcsUrl = "https://github.com/wantedly/maven-repository.git"
-        setVersion(project.version)
-    }
+signing {
+    // https://docs.gradle.org/current/userguide/signing_plugin.html#using_in_memory_ascii_armored_openpgp_subkeys
+    val signingKeyId: String? by project
+    val signingKey: String? by project
+    val signingPassword: String? by project
+    @Suppress("UnstableApiUsage")
+    useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+    sign(publishing.publications["maven"])
 }

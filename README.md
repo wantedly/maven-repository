@@ -1,6 +1,6 @@
 ## wantedly-maven-repository
 
-[ ![Download](https://api.bintray.com/packages/wantedly-dev/maven/com.wantedly%3Awantedly-maven-repository/images/download.svg) ](https://bintray.com/wantedly-dev/maven/com.wantedly%3Awantedly-maven-repository/_latestVersion)
+![Maven Central](https://img.shields.io/maven-central/v/com.wantedly/wantedly-maven-repository)
 
 Make it easier adding a Wantedly's private Maven repository to your Gradle script.
 
@@ -11,7 +11,7 @@ import com.wantedly.maven.repository.wantedly
 
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath("com.wantedly:wantedly-maven-repository:${LATEST_VERSION}")
@@ -21,10 +21,6 @@ buildscript {
 repositories {
     // Adds a GitHub Packages Maven repository.
     wantedly(repo = "repo-name")
-    // S3 Maven repository is depreacted. Use Github packages instead.
-    wantedly()
-    // Deprecated: Add this if you want to use the snapshot versions.
-    wantedly(useSnapshots = true)
 }
 
 dependencies {
@@ -33,15 +29,24 @@ dependencies {
 }
 ```
 
-### How to publish to JCenter
+### How to publish to Maven Central
 
-1. Upload from your local.
+#### GitHub
 
-    ```sh
-    $ export BINTRAY_USER=wantedly-dev
-    $ export BINTRAY_KEY=1234567890
-    $ ./gradlew clean bintrayUpload
-    ```
+You can publish this library using `publish` workflow from GitHub Actions.
 
-1. Go to https://bintray.com/wantedly-dev/maven/com.wantedly%3Awantedly-maven-repository
-1. Click Publish button
+You must change the artifact version before running `publish` workflow to publish the new version.
+Otherwise, `publish` workflow will fail.
+
+#### Local
+
+This repository is public, so we can't write about secrets values, but you can find it in the internal documentation.
+
+```sh
+$ export ORG_GRADLE_PROJECT_signingKeyId=XXXXXXXXXXXX
+$ export ORG_GRADLE_PROJECT_signingKey=XXXXXXXXXXXX
+$ export ORG_GRADLE_PROJECT_signingPassword=XXXXXXXXXXXX
+$ export ORG_GRADLE_PROJECT_ossrhUsername=XXXXXXXXXXXX
+$ export ORG_GRADLE_PROJECT_ossrhPassword=XXXXXXXXXXXX
+$ ./gradlew clean publish
+```
