@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.wantedly"
-version = "1.0.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -40,8 +40,9 @@ val sourcesJar by tasks.registering(Jar::class) {
 publishing {
     repositories {
         maven {
-            val releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            val snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            // TODO: Needs migrate to s01.oss.sonatype.org
+            val releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            val snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
             url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
             credentials {
                 val ossrhUsername: String? by project
@@ -52,7 +53,7 @@ publishing {
         }
     }
     publications {
-        register<MavenPublication>("maven") {
+        create<MavenPublication>("maven") {
             from(components["java"])
             artifact(javadocJar.get())
             artifact(sourcesJar.get())
@@ -82,6 +83,14 @@ publishing {
                 }
             }
         }
+    }
+}
+
+tasks.all {
+    // We need to disable `pluginMaven` publication tasks.
+    // https://github.com/gradle/gradle/issues/14993#issuecomment-717883699
+    if ("PluginMavenPublication" in name) {
+        enabled = false
     }
 }
 
