@@ -87,7 +87,8 @@ publishing {
 }
 
 tasks.all {
-    // We need to disable `pluginMaven` publication tasks.
+    // The `kotlin-dsl` plugin automatically generates a `pluginMaven` publishing task to publish Gradle plugins,
+    // but since there are no Gradle plugins to publish in this project, the `pluginMaven` publishing task is disabled.
     // https://github.com/gradle/gradle/issues/14993#issuecomment-717883699
     if ("PluginMavenPublication" in name) {
         enabled = false
