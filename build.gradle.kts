@@ -4,10 +4,11 @@ plugins {
     `maven-publish`
     signing
     id("org.jetbrains.dokka") version "1.4.20"
+    id("io.github.gradle-nexus.publish-plugin") version "1.0.0"
 }
 
 group = "com.wantedly"
-version = "1.0.0"
+version = "1.0.1-SNAPSHOT"
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
     // Gradle requires targeting 1.8 or higher.
@@ -43,19 +44,19 @@ val sourcesJar by tasks.registering(Jar::class) {
 }
 
 publishing {
-    repositories {
-        maven {
-            val releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-            val snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
-            url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
-            credentials {
-                val ossrhUsername: String? by project
-                val ossrhPassword: String? by project
-                username = ossrhUsername
-                password = ossrhPassword
-            }
-        }
-    }
+//    repositories {
+//        maven {
+//            val releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+//            val snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+//            url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
+//            credentials {
+//                val sonatypeUsername: String? by project
+//                val sonatypePassword: String? by project
+//                username = sonatypeUsername
+//                password = sonatypePassword
+//            }
+//        }
+//    }
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
@@ -107,4 +108,10 @@ signing {
     @Suppress("UnstableApiUsage")
     useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
     sign(publishing.publications["maven"])
+}
+
+nexusPublishing {
+    repositories {
+        sonatype()
+    }
 }
