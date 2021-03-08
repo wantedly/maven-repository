@@ -44,19 +44,6 @@ val sourcesJar by tasks.registering(Jar::class) {
 }
 
 publishing {
-//    repositories {
-//        maven {
-//            val releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-//            val snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
-//            url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
-//            credentials {
-//                val sonatypeUsername: String? by project
-//                val sonatypePassword: String? by project
-//                username = sonatypeUsername
-//                password = sonatypePassword
-//            }
-//        }
-//    }
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
