@@ -9,6 +9,11 @@ plugins {
 group = "com.wantedly"
 version = "1.0.0"
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
+    // Gradle requires targeting 1.8 or higher.
+    kotlinOptions.jvmTarget = "1.8"
+}
+
 repositories {
     mavenCentral()
     // Workaround: https://github.com/Kotlin/dokka/issues/41
