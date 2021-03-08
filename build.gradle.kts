@@ -45,10 +45,6 @@ val sourcesJar by tasks.registering(Jar::class) {
 publishing {
     repositories {
         maven {
-            // TODO: Needs migrate to s01.oss.sonatype.org after release completed.
-            // > Note: As of February 2021, all new projects began being provisioned on https://s01.oss.sonatype.org/.
-            // > If your project is not provisioned on https://s01.oss.sonatype.org/,
-            // > please login to the legacy host https://oss.sonatype.org/.
             val releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
             val snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
             url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
