@@ -46,7 +46,7 @@ This repository is public, so we can't write about secrets values, but you can f
 $ export ORG_GRADLE_PROJECT_signingKeyId=XXXXXXXXXXXX
 $ export ORG_GRADLE_PROJECT_signingKey=XXXXXXXXXXXX
 $ export ORG_GRADLE_PROJECT_signingPassword=XXXXXXXXXXXX
-$ export ORG_GRADLE_PROJECT_ossrhUsername=XXXXXXXXXXXX
-$ export ORG_GRADLE_PROJECT_ossrhPassword=XXXXXXXXXXXX
-$ ./gradlew clean publish
+$ export ORG_GRADLE_PROJECT_sonatypeUsername=XXXXXXXXXXXX
+$ export ORG_GRADLE_PROJECT_sonatypePassword=XXXXXXXXXXXX
+$ ./gradlew clean publishToSonatype closeAndReleaseSonatypeStagingRepository
 ```

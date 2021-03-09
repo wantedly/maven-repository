@@ -4,10 +4,16 @@ plugins {
     `maven-publish`
     signing
     id("org.jetbrains.dokka") version "1.4.20"
+    id("io.github.gradle-nexus.publish-plugin") version "1.0.0"
 }
 
 group = "com.wantedly"
-version = "1.0.0-SNAPSHOT"
+version = "1.0.1"
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
+    // Gradle requires targeting 1.8 or higher.
+    kotlinOptions.jvmTarget = "1.8"
+}
 
 repositories {
     mavenCentral()
@@ -38,21 +44,8 @@ val sourcesJar by tasks.registering(Jar::class) {
 }
 
 publishing {
-    repositories {
-        maven {
-            val releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            val snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-            url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
-            credentials {
-                val ossrhUsername: String? by project
-                val ossrhPassword: String? by project
-                username = ossrhUsername
-                password = ossrhPassword
-            }
-        }
-    }
     publications {
-        register<MavenPublication>("maven") {
+        create<MavenPublication>("maven") {
             from(components["java"])
             artifact(javadocJar.get())
             artifact(sourcesJar.get())
@@ -85,6 +78,15 @@ publishing {
     }
 }
 
+tasks.all {
+    // The `kotlin-dsl` plugin automatically generates a `pluginMaven` publishing task to publish Gradle plugins,
+    // but since there are no Gradle plugins to publish in this project, the `pluginMaven` publishing task is disabled.
+    // https://github.com/gradle/gradle/issues/14993#issuecomment-717883699
+    if ("PluginMavenPublication" in name) {
+        enabled = false
+    }
+}
+
 signing {
     // https://docs.gradle.org/current/userguide/signing_plugin.html#using_in_memory_ascii_armored_openpgp_subkeys
     val signingKeyId: String? by project
@@ -93,4 +95,10 @@ signing {
     @Suppress("UnstableApiUsage")
     useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
     sign(publishing.publications["maven"])
+}
+
+nexusPublishing {
+    repositories {
+        sonatype()
+    }
 }
