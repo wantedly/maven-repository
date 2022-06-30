@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.wantedly"
-version = "1.0.1"
+version = "1.1.0"
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
     // Gradle requires targeting 1.8 or higher.
