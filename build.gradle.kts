@@ -4,7 +4,7 @@ plugins {
     `maven-publish`
     signing
     id("org.jetbrains.dokka") version "1.9.10"
-    id("io.github.gradle-nexus.publish-plugin") version "1.0.0"
+    id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
 }
 
 group = "com.wantedly"
@@ -104,6 +104,10 @@ signing {
 
 nexusPublishing {
     repositories {
-        sonatype()
+        sonatype {
+            // Central Portal用の新しいURL
+            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
+        }
     }
 }
