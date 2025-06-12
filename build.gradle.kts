@@ -3,22 +3,27 @@ plugins {
     kotlin("jvm") version embeddedKotlinVersion
     `maven-publish`
     signing
-    id("org.jetbrains.dokka") version "1.4.20"
+    id("org.jetbrains.dokka") version "1.9.10"
     id("io.github.gradle-nexus.publish-plugin") version "1.0.0"
 }
 
 group = "com.wantedly"
 version = "1.1.0"
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
-    // Gradle requires targeting 1.8 or higher.
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
 }
 
 repositories {
     mavenCentral()
-    // Workaround: https://github.com/Kotlin/dokka/issues/41
-    jcenter()
 }
 
 dependencies {
